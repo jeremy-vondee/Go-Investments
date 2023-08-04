@@ -9,10 +9,16 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import InputField from './InputField.jsx';
 
 function Task({ id, name, onRemoveTask }) {
+  const handleRemoveTask = () => {
+    if(typeof onRemoveTask === 'function') {
+      return onRemoveTask(id)
+    }
+  }
+  
   return (
     <Stack direction="row" alignItems="center">
       <FormControlLabel control={<Checkbox id={id} />} label={name} />
-      <IconButton aria-label="delete" taskid={id} onClick={onRemoveTask}>
+      <IconButton aria-label="delete" taskid={id} onClick={handleRemoveTask}>
         <DeleteIcon />
       </IconButton>
     </Stack>
@@ -32,9 +38,8 @@ function TaskList() {
     setTasks((prevTasks) => [...prevTasks, task]);
   };
 
-  const removeTask = (taskid) => {
-    console.log(taskid);
-    // tasks.filter((t) => t.id !== taskId.id);
+  const removeTask = (id) => {
+    setTasks((prevTasks) => prevTasks.filter((task) => task.id !== id))
   };
 
   return (
