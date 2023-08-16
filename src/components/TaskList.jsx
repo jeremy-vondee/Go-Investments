@@ -8,41 +8,58 @@ import DeleteIcon from '@mui/icons-material/Delete'
 import Typography from '@mui/material/Typography'
 import FormControlLabel from '@mui/material/FormControlLabel'
 import ModeIcon from '@mui/icons-material/Mode'
+import TextField from '@mui/material/TextField'
+import Button from '@mui/material/Button'
 import InputField from './InputField.jsx'
-import EditTask from './EditTask.jsx'
 
 function Task({
-  id, name, checked, onCheckTask, onEditTask, onRemoveTask,
+  id, name, checked, onCheckTask, edit, onEditTask, onRemoveTask,
 }) {
   const handleRemoveTask = () => {
     if (typeof onRemoveTask === 'function') {
       return onRemoveTask(id)
     }
   }
+
   const handleCheckTask = () => {
     if (typeof onCheckTask === 'function') {
       return onCheckTask(id)
     }
   }
+
+  const handleEditTaskName = (event) => console.log(event.target.value)
+
+  const handleTaskNameUpdate = () => !edit
+
   const handleEditTask = () => {
     if (typeof onEditTask === 'function') {
       return onEditTask(id)
     }
-    return <EditTask />
   }
 
   return (
     <Stack direction="row" alignItems="center">
-      <FormControlLabel
-        control={<Checkbox id={id} checked={checked} onChange={handleCheckTask} />}
-        label={name}
-      />
-      <IconButton aria-label="edit" onClick={handleEditTask}>
-        <ModeIcon />
-      </IconButton>
-      <IconButton aria-label="delete" onClick={handleRemoveTask}>
-        <DeleteIcon />
-      </IconButton>
+      {edit === true ? (
+        <Stack direction="row" spacing={2} component="form">
+          <TextField value={name} onChange={handleEditTaskName} />
+          <Button variant="contained" onClick={handleTaskNameUpdate}>
+            Edit Task
+          </Button>
+        </Stack>
+      ) : (
+        <>
+          <FormControlLabel
+            control={<Checkbox id={id} checked={checked} onChange={handleCheckTask} />}
+            label={name}
+          />
+          <IconButton aria-label="edit" onClick={handleEditTask}>
+            <ModeIcon />
+          </IconButton>
+          <IconButton aria-label="delete" onClick={handleRemoveTask}>
+            <DeleteIcon />
+          </IconButton>
+        </>
+      )}
     </Stack>
   )
 }
@@ -54,11 +71,11 @@ Task.propTypes = {
   onCheckTask: PropTypes.func,
   onRemoveTask: PropTypes.func,
   onEditTask: PropTypes.func,
+  edit: PropTypes.bool,
 }
 
 function TaskList() {
   const [tasks, setTasks] = useState([])
-  // const [isEditing, setIsEditing] = useState(false)
   const completedTasks = tasks.filter((task) => task.checked === true)
   const uncompletedTasks = tasks.filter((task) => task.checked === false)
 
@@ -88,7 +105,6 @@ function TaskList() {
     }))
   }
   console.log(tasks)
-
   return (
     <Box>
       <InputField onAddTask={addTask} />
@@ -104,6 +120,7 @@ function TaskList() {
             key={task.id}
             id={task.id}
             name={task.name}
+            edit={task.edit}
             checked={task.checked}
             onCheckTask={onCheckTask}
             onEditTask={onEditTask}
@@ -123,6 +140,7 @@ function TaskList() {
             key={task.id}
             id={task.id}
             name={task.name}
+            edit={task.edit}
             checked={task.checked}
             onCheckTask={onCheckTask}
             onRemoveTask={removeTask}
