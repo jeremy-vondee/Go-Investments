@@ -1,25 +1,25 @@
-import PropTypes from 'prop-types';
-import TextField from '@mui/material/TextField';
-import Button from '@mui/material/Button';
-import AddIcon from '@mui/icons-material/Add';
-import Stack from '@mui/material/Stack';
-import { useState } from 'react';
-import { nanoid } from 'nanoid';
+import PropTypes from 'prop-types'
+import TextField from '@mui/material/TextField'
+import Button from '@mui/material/Button'
+import AddIcon from '@mui/icons-material/Add'
+import Stack from '@mui/material/Stack'
+import { useState } from 'react'
+import { nanoid } from 'nanoid'
 
 function InputField({ onAddTask }) {
-  const [taskName, setTaskName] = useState('');
+  const [taskName, setTaskName] = useState('')
 
   const handleUpdateTaskName = (event) => {
-    setTaskName(event.target.value);
-  };
+    setTaskName(event.target.value)
+  }
 
   const handleAddTask = (event) => {
-    event.preventDefault();
-    setTaskName('');
+    event.preventDefault()
+    setTaskName('')
     if (typeof onAddTask === 'function') {
-      return onAddTask({ id: nanoid(), name: taskName });
+      return onAddTask({ id: nanoid(), name: taskName })
     }
-  };
+  }
 
   return (
     <Stack direction="row" spacing={2} component="form" onSubmit={handleAddTask}>
@@ -33,11 +33,11 @@ function InputField({ onAddTask }) {
         Add Task
       </Button>
     </Stack>
-  );
+  )
 }
 
 InputField.propTypes = {
   onAddTask: PropTypes.func,
-};
+}
 
-export default InputField;
+export default InputField

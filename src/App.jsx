@@ -1,6 +1,6 @@
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import TaskList from './components/TaskList.jsx';
+import Box from '@mui/material/Box'
+import Typography from '@mui/material/Typography'
+import TaskList from './components/TaskList.jsx'
 
 function App() {
   return (
@@ -12,7 +12,7 @@ function App() {
         <TaskList />
       </Box>
     </Box>
-  );
+  )
 }
 
-export default App;
+export default App
